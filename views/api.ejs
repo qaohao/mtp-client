@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=8;">
+<head>
+    <title>Api测试</title>
+    <link rel='stylesheet' href='/stylesheets/style.css'/>
+    <script type="text/javascript" src="/javascripts/jquery-1.4.4.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#J_api").change(function () {
+                var _this = $(this);
+                window.location = window.location.href.replace(/\?.*/, "").concat("?")
+                        .concat(_this.attr("name")).concat("=").concat(_this.val());
+            });
+            $("#J_call").click(function() {
+                $.ajax({
+                    type: "POST",
+                    url: "/api/submit",
+                    data: $("#J_api,#J_form input[type=text]").serialize() ,
+                    success: function(data){
+                        var result = $.parseJSON(data);
+                        $("#J_url").val(result.url);
+                        $("#J_result").val(result.result);
+                    }
+                });
+            });
+            $("#J_open").click(function(){
+                var url = $("#J_url").val();
+                if (url) {
+                    window.open(url);
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+<div class="main-wrap docu-bg">
+    <div class="pages-bg"></div>
+    <div class="page-main ">
+        <div id="J_form" style="margin-top:30px; margin-left:60px">
+            <div class="bd">
+                <div class="form-chk" style="padding-bottom: 0;">
+                    <ul>
+                        <li>
+                            <div class="tit"><label for="J_api">API名称：</label></div>
+                            <div class="f-part">
+                                <select id="J_api" name="api" class="output-txt" style="width:374px;">
+                                    <% all.forEach(function(url){ %>
+                                    <% if (api && url == api.url) { %>
+                                    <option value="<%= url %>" selected><%= url %></option>
+                                    <% } else{ %>
+                                    <option value="<%= url %>"><%= url %></option>
+                                    <% } %>
+                                    <% }) %>
+                                </select>
+                            </div>
+                        </li>
+                        <li>参数列表：</li>
+                        <% api.args.forEach(function(arg){ %>
+                        <li>
+                            <div class="tit">
+                                <label for="J_<%= arg.argName %>"><%= arg.argName %></label>
+                            </div>
+                            <div class="f-part">
+                                <input id="J_<%= arg.argName %>" name="<%= arg.argName %>" class="input-plain itxt-l"
+                                       value="<%= arg.argValue %>" type="text">
+                                <% if(!arg.option){ %>
+                                <span>*</span>
+                                <% } %>
+                            </div>
+                        </li>
+                        <% }) %>
+                    </ul>
+                    <div class="btn-box apioper">
+                        <ul>
+                            <li class="btn">
+                                <span class="medi-btn"><input class="btn-txt" value="调用接口" id="J_call"
+                                                              type="button"></span>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <hr style="width:800px;margin-left: 0px;">
+            <div class="bd">
+
+                <div class="form-chk">
+                    <ul>
+                        <li>
+                            <div class="tit"><label for="J_url">URL地址参数：</label></div>
+                            <div class="f-part"><textarea cols="" rows="4" class="tar-plain" style="width:600px"
+                                                          id="J_url" readonly="readonly"></textarea></div>
+                        </li>
+                        <li>
+                            <div class="tit"><label for="J_result">返回内容：</label></div>
+                            <div class="f-part"><textarea id="J_result" class="tar-plain"
+                                                          style="width:600px;height:300px;overflow:auto"
+                                                          readonly="readonly"></textarea></div>
+                        </li>
+                    </ul>
+
+                    <div class="btn-box">
+                        <span class="medi-btn"><input class="btn-txt" value="新窗口打开" id="J_open" type="button"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
