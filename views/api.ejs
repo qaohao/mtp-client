@@ -47,11 +47,11 @@
                             <div class="f-part">
                                 <select id="J_api" name="api" class="output-txt" style="width:374px;">
                                     <% all.forEach(function(url){ %>
-                                    <% if (api && url == api.url) { %>
-                                    <option value="<%= url %>" selected><%= url %></option>
-                                    <% } else{ %>
-                                    <option value="<%= url %>"><%= url %></option>
-                                    <% } %>
+                                        <% if (api && url == api.url) { %>
+                                            <option value="<%= url %>" selected><%= url %></option>
+                                        <% } else{ %>
+                                             <option value="<%= url %>"><%= url %></option>
+                                        <% } %>
                                     <% }) %>
                                 </select>
                             </div>

@@ -18,12 +18,12 @@ var apis = {
             {
                 "argName": "app_key",
                 "argValue": "c0350972ae",
-                "option": "false"
+                "option": false
             },
             {
                 "argName": "uid",
                 "argValue": "241866356",
-                "option": "false"
+                "option": false
             }
         ]
     },
@@ -88,7 +88,7 @@ exports.api = function (req, res) {
         "all": apis.all,
         "api": {
             "url": result.url,
-            "args": apis.common.args.concat(result.args)
+            "args": [].concat(apis.common.args).concat(result.args)
         }
     });
 }
